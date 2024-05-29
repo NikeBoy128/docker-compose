@@ -27,7 +27,7 @@ services:
     image: lscr.io/linuxserver/snipe-it:latest
     container_name: snipe-it
     environment:
-      - APP_URL=http://localhost:8200
+      - APP_URL=http://10.10.10.3:8200
       - MYSQL_PORT_3306_TCP_ADDR=shareddbtest
       - MYSQL_PORT_3306_TCP_PORT=3306
       - MYSQL_DATABASE=shared_db
