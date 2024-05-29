@@ -24,7 +24,7 @@ services:
       - MYSQL_PASSWORD=password
 
   snipeit:
-    image: snipe/snipe-it
+    image: lscr.io/linuxserver/snipe-it:latest
     restart: always
     ports:
       - 8082:80
