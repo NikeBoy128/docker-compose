@@ -34,6 +34,7 @@ services:
       - MYSQL_DATABASE=shared_db
       - MYSQL_USER=user
       - MYSQL_PASSWORD=password
+      - APP_KEY=base64:t3o6pURhKWqYGeOQS+RZsEPKmkyvzaIBqzNA44wSxxI=
 
   gitea:
     image: gitea/gitea:latest
