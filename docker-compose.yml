@@ -1,0 +1,76 @@
+version: '3'
+
+services:
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: shared_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    volumes:
+      - db_data:/var/lib/mysql
+
+  nextcloud:
+    image: nextcloud
+    restart: always
+    ports:
+      - 8080:80
+    volumes:
+      - nextcloud:/var/www/html
+    environment:
+      - MYSQL_HOST=db
+      - MYSQL_DATABASE=shared_db
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=password
+
+  snipeit:
+    image: snipe/snipe-it
+    restart: always
+    ports:
+      - 8081:80
+    environment:
+      - MYSQL_PORT_3306_TCP_ADDR=db
+      - MYSQL_PORT_3306_TCP_PORT=3306
+      - MYSQL_DATABASE=shared_db
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=password
+
+  gitea:
+    image: gitea/gitea:latest
+    restart: always
+    ports:
+      - 3000:3000
+      - 222:22
+    volumes:
+      - gitea:/data
+    environment:
+      - DB_TYPE=mysql
+      - DB_HOST=db:3306
+      - DB_NAME=shared_db
+      - DB_USER=user
+      - DB_PASSWD=password
+
+  bookstack:
+    image: linuxserver/bookstack
+    restart: always
+    ports:
+      - 6875:80
+    environment:
+      - DB_HOST=db:3306
+      - DB_DATABASE=shared_db
+      - DB_USERNAME=user
+      - DB_PASSWORD=password
+
+  jitsi:
+    image: jitsi/web
+    restart: always
+    ports:
+      - 8000:80
+      - 8443:443
+
+volumes:
+  db_data:
+  nextcloud:
+  gitea:
