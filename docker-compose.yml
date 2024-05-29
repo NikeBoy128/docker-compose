@@ -62,13 +62,6 @@ services:
       - DB_USERNAME=user
       - DB_PASSWORD=password
 
-  jitsi:
-    image: jitsi/web
-    restart: always
-    ports:
-      - 8000:80
-      - 8443:443
-
 volumes:
   db_data:
   nextcloud:
