@@ -27,7 +27,7 @@ services:
     image: snipe/snipe-it
     restart: always
     ports:
-      - 8081:80
+      - 8082:80
     environment:
       - MYSQL_PORT_3306_TCP_ADDR=shareddbtest
       - MYSQL_PORT_3306_TCP_PORT=3306
