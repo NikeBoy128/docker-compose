@@ -1,3 +1,5 @@
+
+
 services:
   shareddbtest:
     image: mysql:5.7
@@ -40,6 +42,7 @@ services:
     depends_on:
       - shareddbtest
     restart: unless-stopped
+
   gitea:
     image: gitea/gitea:latest
     restart: always
@@ -50,10 +53,30 @@ services:
       - gitea:/data
     environment:
       - DB_TYPE=mysql
-      - DB_HOST=shareddbtest:3306
+      - DB_HOST=shareddbtest
       - DB_NAME=shared_db
       - DB_USER=user
       - DB_PASSWD=password
+
+  bookstack:
+    image: ghcr.io/linuxserver/bookstack
+    container_name: bookstack
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Madrid  
+      - APP_URL=http://10.10.10.3:6875
+      - DB_HOST=shareddbtest
+      - DB_USER=user
+      - DB_PASS=password
+      - DB_DATABASE=shared_db
+    volumes:
+      - ./app-data:/config
+    ports:
+      - "6875:80"
+    restart: unless-stopped
+    depends_on:
+      - shareddbtest
 
 volumes:
   shareddbtest_data:
