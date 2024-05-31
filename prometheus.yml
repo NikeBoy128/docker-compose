@@ -11,3 +11,11 @@ scrape_configs:
     scrape_interval: 5s
     static_configs:
       - targets: ['10.10.10.3:9323']
+  - job_name: 'nextjs'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['localhost:3000']
+  - job_name: 'nestjs'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['localhost:3001']
