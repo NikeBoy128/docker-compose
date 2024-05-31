@@ -4,10 +4,21 @@ global:
 
 scrape_configs:
   - job_name: 'prometheus'
-    scrape_interval: 5s
     static_configs:
       - targets: ['localhost:9090']
-  - job_name: 'docker'
-    scrape_interval: 5s
+
+  - job_name: 'mysql'
     static_configs:
-      - targets: ['10.10.10.3:9323']
+      - targets: ['shareddbtest:3306']
+
+  - job_name: 'nextcloud'
+    static_configs:
+      - targets: ['nextcloud:80']
+
+  - job_name: 'snipe-it'
+    static_configs:
+      - targets: ['snipe-it:80']
+
+  - job_name: 'gitea'
+    static_configs:
+      - targets: ['gitea:3000']
