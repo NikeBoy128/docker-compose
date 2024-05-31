@@ -1,5 +1,3 @@
-
-
 services:
   shareddbtest:
     image: mysql:5.7
@@ -58,6 +56,17 @@ services:
       - DB_USER=user
       - DB_PASSWD=password
 
+  bookstackdb:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: bookstackrootpassword
+      MYSQL_DATABASE: bookstack_db
+      MYSQL_USER: bookstackuser
+      MYSQL_PASSWORD: bookstackpassword
+    volumes:
+      - bookstackdb_data:/var/lib/mysql
+
   bookstack:
     image: ghcr.io/linuxserver/bookstack
     container_name: bookstack
@@ -66,19 +75,20 @@ services:
       - PGID=1000
       - TZ=Europe/Madrid  
       - APP_URL=http://10.10.10.3:6875
-      - DB_HOST=shareddbtest
-      - DB_USER=user
-      - DB_PASS=password
-      - DB_DATABASE=shared_db
+      - DB_HOST=bookstackdb
+      - DB_USER=bookstackuser
+      - DB_PASS=bookstackpassword
+      - DB_DATABASE=bookstack_db
     volumes:
       - ./app-data:/config
     ports:
       - "6875:80"
     restart: unless-stopped
     depends_on:
-      - shareddbtest
+      - bookstackdb
 
 volumes:
   shareddbtest_data:
+  bookstackdb_data:
   nextcloud:
   gitea:
